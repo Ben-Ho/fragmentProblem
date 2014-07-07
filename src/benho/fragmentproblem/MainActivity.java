@@ -2,6 +2,7 @@ package benho.fragmentproblem;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 							}
 							FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 							ft.replace(R.id.c_act_main_right, mFragmentRightC);
+							ft.addToBackStack(null);
 							ft.commit();
 						}
 					};
@@ -46,6 +48,7 @@ public class MainActivity extends FragmentActivity {
 							}
 							FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 							ft.replace(R.id.c_act_main_right, mFragmentRightD);
+							ft.addToBackStack(null);
 							ft.commit();
 						}
 					};
@@ -57,6 +60,16 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		ft.replace(R.id.c_act_main_left, mFragmentLeftA);
+		ft.addToBackStack("firstState");
 		ft.commit();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		FragmentManager fm = getSupportFragmentManager();
+		if (!fm.popBackStackImmediate("firstState", 0)) {
+			fm.popBackStack();
+			super.onBackPressed();
+		}
 	}
 }
